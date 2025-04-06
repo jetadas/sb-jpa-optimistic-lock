@@ -41,25 +41,25 @@ public class BootApplicationTest {
         Movie ironManForUserTwo = movieRepository.findByTitle(MOVIE_1);
 
         MovieDto firstMovieDtoForUserOne = MovieMapper.of(ironManForUserOne);
-        MovieDto secondMovieDtoForUserTwo = MovieMapper.of(ironManForUserTwo);
+        MovieDto firstMovieDtoForUserTwo = MovieMapper.of(ironManForUserTwo);
 
         // Modify field
         firstMovieDtoForUserOne.setRating(1);
-        secondMovieDtoForUserTwo.setRating(0);
+        firstMovieDtoForUserTwo.setRating(0);
 
         Movie updateFirstMovieForUserOne = MovieMapper.of(firstMovieDtoForUserOne);
-        Movie updateSecondMovieForUserTwo = MovieMapper.of(secondMovieDtoForUserTwo);
+        Movie updateFirstMovieForUserTwo = MovieMapper.of(firstMovieDtoForUserTwo);
 
         // The versions for both movies are 0.
         assertEquals(0, updateFirstMovieForUserOne.getVersion().intValue());
-        assertEquals(0, updateSecondMovieForUserTwo.getVersion().intValue());
+        assertEquals(0, updateFirstMovieForUserTwo.getVersion().intValue());
 
         // save first updated movie
         movieRepository.save(updateFirstMovieForUserOne);
 
         // Once first movie is saved then version will be checked by internally and if it is different then
         // it will throw Exception
-        movieRepository.save(updateSecondMovieForUserTwo);
+        movieRepository.save(updateFirstMovieForUserTwo);
     }
 
 
